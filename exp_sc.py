@@ -3,9 +3,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import pandas as pd
 import time
+from copy import copy
 import datetime
-#import smtplib
-#from email.mime.multipart import MIMEMultipart
 
 class ExpediaDriver():
 
@@ -222,12 +221,23 @@ class ExpediaDriver():
 
         print('Excel Sheet Created!')
 
+        
+arrival = input("Geben sie ihr Flugziel hier ein:")
+
 container = [
-    dict(departure="Stuttgart", arrival="Mexico", dep_date=('01', '01', '2020'), ret_date=('01', '11', '2020')),
-    dict(departure="Stuttgart", arrival="Mexico", dep_date=('01', '01', '2020'), ret_date=('01', '11', '2020')),
-    {'departure':"Frankfurt", 'arrival':"Mexico", 'dep_date':('01', '01', '2020'),'ret_date':('01', '11', '2020')},
-    {'departure':"München", 'arrival':"Mexico", 'dep_date':('01', '01', '2020'),'ret_date':('01', '11', '2020')},
+    {'departure':'Stuttgart', 'dep_date':('01', '02', '2020'),'ret_date':('01', '12', '2020'), "range": 5}
 ]
+
+my_dict = container[0]
+my_days = int(my_dict["range"])
+
+for i in range(my_days):
+    day_offset = i+1
+    new_dict = copy(my_dict)
+    month, day, year = my_dict['dep_date']
+    day = eval('int(day) + day_offset')
+    new_dict.update({'dep_date': (month, day, year)})
+    container.append(new_dict)
 
 writer = pd.ExcelWriter("flights.xlsx")
 
@@ -260,11 +270,15 @@ for i, flight_dict in enumerate(container):
 
     flights_only.click()
 
-    driver.ticket_chooser(return_ticket) 
+    driver.ticket_chooser(return_ticket) # Hier kann auch z.B. one_way_ticket ausgewählt werden
 
     driver.dep_country_chooser(departure)
 
+    # driver.dep_country_chooser(flight_dict['departure'])  #<-- geht auch so
+
     driver.arrival_country_chooser('Mexico')
+
+    #driver.arrival_country_chooser(arrival)
 
     driver.dep_date_chooser(dep_date)
 
@@ -279,24 +293,3 @@ for i, flight_dict in enumerate(container):
     driver.driver.close()
 
 writer.save()
-
-################# 
-
-#     #save values for email
-#
-#     #current_values = driver.df.iloc[0]
-#
-#     #cheapest_dep_time = current_values[0]
-#
-#     #cheapest_arrival_time = current_values[1]
-#
-#     #cheapest_airline = current_values[2]
-#
-#     #cheapest_duration = current_values[3]
-#
-#     #cheapest_stops = current_values[4]
-#
-#     #cheapest_price = current_values[-1]
-#
-#     #print('run {} completed!'.format(i))
-#
