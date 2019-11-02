@@ -122,8 +122,8 @@ def compile_data_kayak():
             pass
 
         try:
-            # k_dates = driver.find_elements_by_xpath(f'/html/body/div[1]/div/div[1]/main/div/div[1]/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div/div[{k}]/div/a/div[3]')
-            k_dates = driver.find_elements_by_xpath('')
+            k_dates = driver.find_elements_by_xpath(f'/html/body/div[1]/div/div[1]/main/div/div[1]/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div/div[{k}]/div/a/div[3]')
+            # k_dates = driver.find_elements_by_xpath('')
             print(k_dates)
             kayak_dates = [element.text for element in k_dates]
             print(kayak_dates)
