@@ -14,7 +14,7 @@ class ExpediaDriver():
         """
         eine Klasse die eine Driver Anfrage darstellt
         """
-        self.driver = webdriver.Chrome(executable_path='/Users/Fabi/Downloads/chromedriver')
+        self.driver = webdriver.Chrome(executable_path='/Users/Fabi/driver/chromedriver')
         self.df = pd.DataFrame()
         self.dep_times_list = []
         self.arr_times_list = []
